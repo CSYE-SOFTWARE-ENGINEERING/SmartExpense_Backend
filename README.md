@@ -15,7 +15,7 @@
 
 - **Language**: Java
 - **Framework**: Spring Boot
-- **Database**:
+- **Database**: MySQL
 - **API Documentation**: Swagger
 
 ## Project Structure
