@@ -52,20 +52,21 @@ git clone https://github.com/CSYE-SOFTWARE-ENGINEERING/SmartExpense_Backend.git
 cd SmartExpense_Backend
 
 2. Configure Environment
-Make sure you have Java 11+ installed.
+Make sure you have Java 21+ installed.
+maven 3.9.9
 
 Set up the database and update connection settings in application.properties or application.yml.
 
 3. Run the Application
 Using Maven:./mvnw spring-boot:run
 
-Using Gradle:./gradlew bootRun
-
 The application will be available at http://localhost:8080.
 
 API Documentation
+
 When the application is running, you can access the Swagger UI at:
-http://localhost:8080/swagger-ui.html
+https://csye-software-engineering.github.io/SmartExpense_Backend/
+and please use the post man to 
 
 
 License
