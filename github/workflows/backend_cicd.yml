@@ -1,0 +1,36 @@
+name: Validate On Push
+
+on:
+    pull_request:
+      branches:
+        - main  # Trigger when a PR is opened, synchronized, or reopened
+  
+jobs:
+    packer-lint-validate:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+  
+        - name: Install Packer
+          run: |
+            VERSION="1.8.4"
+            ARCH="amd64"
+            curl -fsSL "https://releases.hashicorp.com/packer/${VERSION}/packer_${VERSION}_linux_${ARCH}.zip" -o "packer.zip"
+            unzip packer.zip
+            sudo mv packer /usr/local/bin/
+            packer --version
+
+        - name: Create SSH Private Key for AWS
+          run: |
+                # echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > my-key.pem
+                # chmod 600 my-key.pem  # Ensure correct permissions
+                # ls -l my-key.pem  # Verify the file exists    
+        
+                - name: Run Packer fmt
+                run: |
+                  packer fmt java-app.pkr.hcl
+              
+                - name: Run Packer init
+                run: |
+                    packer init java-app.pkr.hcl
