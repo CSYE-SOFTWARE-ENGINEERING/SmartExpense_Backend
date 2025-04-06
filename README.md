@@ -15,22 +15,32 @@
 
 - **Language**: Java
 - **Framework**: Spring Boot
-- **Database**: (To be configured — e.g., MySQL, PostgreSQL)
-- **API Documentation**: Swagger (or similar)
+- **Database**:
+- **API Documentation**: Swagger
 
 ## Project Structure
 
 SmartExpense_Backend/               ← Root project directory
+
 ├── .vscode/                        ← VS Code project settings
+
 ├── docs/                           ← Project documentation files
+
 ├── .github/workflows/             ← GitHub Actions CI/CD workflow configs
+
 ├── smartexpense/                  ← Main source code directory
+
 │   ├── controllers/               ← Handles incoming HTTP requests (API controllers)
+
 │   ├── models/                    ← Domain models and entity classes
+
 │   ├── repositories/              ← Data access layer (interacts with the database)
 │   ├── services/                  ← Business logic layer
+
 │   └── SmartExpenseApplication.java ← Main Spring Boot application entry point
+
 ├── README.md                      ← Project README documentation
+
 └── java-app.pkr.hcl               ← Deployment/packaging configuration file (HCL format)
 
 ## Getting Started
