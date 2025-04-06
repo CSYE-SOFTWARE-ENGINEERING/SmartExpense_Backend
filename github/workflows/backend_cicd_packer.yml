@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-artifact
-          path: target/*.jar
+          path: target/smartexpense-0.0.1-SNAPSHOT.jar
           retention-days: 1
 
   packer-build:
