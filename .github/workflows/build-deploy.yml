@@ -1,0 +1,50 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
+    - name: Run tests
+      run: mvn test
+      
+    - name: Install Packer
+      uses: hashicorp/setup-packer@main
+      with:
+        version: '1.9.4'
+        
+    - name: Packer Init
+      run: packer init ./packer
+        
+    - name: Packer Validate
+      run: packer validate ./packer
+        
+    - name: Build Packer Image
+      run: packer build ./packer
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-east-1'
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-jar
+        path: target/smartexpense-0.0.1-SNAPSHOT.jar
