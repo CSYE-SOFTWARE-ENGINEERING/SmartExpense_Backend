@@ -10,10 +10,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
       
     - name: Set up JDK 21
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v2
       with:
         java-version: '21'
         distribution: 'temurin'
@@ -26,9 +26,10 @@ jobs:
       run: mvn test
       
     - name: Install Packer
-      uses: hashicorp/setup-packer@main
-      with:
-        version: '1.9.4'
+      run: |
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        sudo apt-get update && sudo apt-get install packer
         
     - name: Packer Init
       run: packer init ./packer
@@ -44,7 +45,7 @@ jobs:
         AWS_REGION: 'us-east-1'
         
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: app-jar
-        path: target/smartexpense-0.0.1-SNAPSHOT.jar
+        path: target/*.jar
