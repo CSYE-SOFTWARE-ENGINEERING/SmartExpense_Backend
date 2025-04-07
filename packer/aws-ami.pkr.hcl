@@ -47,7 +47,7 @@ build {
     inline = [
       "echo Installing dependencies...",
       "sudo apt-get update",
-      "sudo apt-get install -y openjdk-17-jdk",
+      "sudo apt-get install -y openjdk-21-jdk",
       "sudo apt-get install -y nginx"
     ]
   }
