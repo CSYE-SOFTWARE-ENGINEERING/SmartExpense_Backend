@@ -92,7 +92,7 @@ jobs:
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
-          name: healthz-application-artifact
+          name: smartExpense-application-artifact
           path: ./target
 
       - name: Install AWS CLI
