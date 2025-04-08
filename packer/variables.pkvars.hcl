@@ -1,0 +1,7 @@
+aws_region     = "us-east-1"
+instance_type  = "t2.micro"
+ami_name       = "custom-healthz-application-{{timestamp}}"
+app_jar        = "smartexpense-0.0.1-SNAPSHOT.jar"
+app_user       = "csye-usr"
+app_group      = "csye-grp"
+target_account_id = "116981804767"
