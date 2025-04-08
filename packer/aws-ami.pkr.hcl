@@ -22,7 +22,7 @@ source "amazon-ebs" "smartexpense" {
   region        = "us-east-1"
   source_ami_filter {
     filters = {
-      name                = "ubuntu/images/*ubuntu-focal-20.04-amd64-server-*"
+      name                = "ubuntu-minimal/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-minimal-20240905"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
