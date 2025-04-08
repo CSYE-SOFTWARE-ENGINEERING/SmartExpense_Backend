@@ -70,13 +70,13 @@ jobs:
           path: ./target
 
       - name: Initialize Packer project
-        run: packer init ./packer/templates/aws-ami.pkr.hcl
+        run: packer init ./packer/aws-ami.pkr.hcl
 
       - name: Format Packer templates
-        run: packer fmt -check -diff ./packer/templates/aws-ami.pkr.hcl
+        run: packer fmt -check -diff ./packer/aws-ami.pkr.hcl
 
       - name: Validate Packer templates
-        run: packer validate -var-file=./packer/variables.pkvars.hcl ./packer/templates/aws-ami.pkr.hcl
+        run: packer validate -var-file=./packer/variables.pkvars.hcl ./packer/aws-ami.pkr.hcl
 
   build-image:
     runs-on: ubuntu-latest
@@ -113,10 +113,10 @@ jobs:
           aws configure set region $AWS_REGION
 
       - name: Initialize Packer project
-        run: packer init ./packer/templates/aws-ami.pkr.hcl
+        run: packer init ./packer/aws-ami.pkr.hcl
 
       - name: Build Packer image
-        run: packer build -var-file=packer/variables.pkvars.hcl packer/templates/aws-ami.pkr.hcl
+        run: packer build -var-file=packer/variables.pkvars.hcl packer/aws-ami.pkr.hcl
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
