@@ -42,7 +42,7 @@ jobs:
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: healthz-application-artifact
+          name: smartExpense-application-artifact
           path: target/smartexpense-0.0.1-SNAPSHOT.jar
           retention-minutes: 20
 
