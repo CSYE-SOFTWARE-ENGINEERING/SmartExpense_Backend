@@ -53,7 +53,7 @@ build {
   }
   
   provisioner "file" {
-    source      = "target/*.jar"
+    source      = "./smartexpense/target/smartexpense-0.0.1-SNAPSHOT.jar"
     destination = "/home/ubuntu/app.jar"
   }
   
