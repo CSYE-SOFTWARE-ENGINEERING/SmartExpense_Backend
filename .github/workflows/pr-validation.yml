@@ -39,15 +39,17 @@ jobs:
 
       - name: Install dependencies
         run: mvn install --no-transfer-progress --quiet
+        working-directory: ./smartexpense
 
       - name: Run tests
         run: mvn test --no-transfer-progress --quiet
+        working-directory: ./smartexpense
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
           name: smartExpense-application-artifact
-          path: target/smartexpense-0.0.1-SNAPSHOT.jar
+          path: ./smartexpense/target/smartexpense-0.0.1-SNAPSHOT.jar
           retention-minutes: 20
 
   format-validate:
