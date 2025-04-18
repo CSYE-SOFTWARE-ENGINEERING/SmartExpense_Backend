@@ -66,7 +66,29 @@ API Documentation
 
 When the application is running, you can access the Swagger UI at:
 https://csye-software-engineering.github.io/SmartExpense_Backend/
-and please use the post man to 
+and please use the postman to test.
+
+
+🧩 Database Setup
+To set up the MySQL database locally with sample data:
+
+1. Ensure MySQL is installed and running (e.g., MySQL 8.0).
+
+2. Create the database manually (if it doesn't already exist):
+CREATE DATABASE smartexpense;
+
+3.Import the schema and sample data:
+
+Replace your_username with your MySQL username, then run:
+mysql -u your_username -p smartexpense < src/main/resources/db/changelog/smartexpense.sql
+
+📁 The SQL file is located at
+src/main/resources/db/smartexpense.sql
+
+4. Update database credentials in application.properties (if needed):
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+
 
 
 License
