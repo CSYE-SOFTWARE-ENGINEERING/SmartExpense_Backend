@@ -142,8 +142,8 @@ public class BudgetService {
 
         BigDecimal totalSpent = transactions.stream()
                 .filter(t -> t.getType() == com.teamfour.smartexpense.model.TransactionType.EXPENSE)
-                .filter(t -> !t.getDate().toLocalDate().isBefore(budget.getStartDate()))
-                .filter(t -> !t.getDate().toLocalDate().isAfter(budget.getEndDate()))
+                .filter(t -> !t.getDate().isBefore(budget.getStartDate()))
+                .filter(t -> !t.getDate().isAfter(budget.getEndDate()))
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
