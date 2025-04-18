@@ -77,8 +77,13 @@ public class TransactionService {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Transaction not found with id: " + id));
 
+        // Keep a copy of the original transaction data for reverting the wallet balance
+        TransactionType originalType = transaction.getType();
+        BigDecimal originalAmount = transaction.getAmount();
+        Wallet originalWallet = transaction.getWallet();
+
         // Revert the previous wallet balance update
-        updateWalletBalance(transaction.getWallet(), transaction, true);
+        revertWalletBalance(originalWallet, originalType, originalAmount);
 
         // Get wallet
         Wallet wallet = walletRepository.findById(requestDto.getWalletId())
@@ -107,7 +112,7 @@ public class TransactionService {
 
         // Check budget if it's an expense and category is set
         if (category != null && requestDto.getType() == TransactionType.EXPENSE) {
-            budgetService.checkBudgetLimits(wallet.getId(), category.getId(), requestDto.getAmount());
+            budgetService.checkBudgetLimits(wallet.getUser().getId(), category.getId(), requestDto.getAmount());
         }
 
         return mapToDto(updatedTransaction);
@@ -118,8 +123,8 @@ public class TransactionService {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Transaction not found with id: " + id));
 
-        // Revert the wallet balance
-        updateWalletBalance(transaction.getWallet(), transaction, true);
+        // Revert the wallet balance before deleting the transaction
+        revertWalletBalance(transaction.getWallet(), transaction.getType(), transaction.getAmount());
 
         // Delete transaction
         transactionRepository.delete(transaction);
@@ -147,28 +152,37 @@ public class TransactionService {
     }
 
     private void updateWalletBalance(Wallet wallet, Transaction transaction) {
-        updateWalletBalance(wallet, transaction, false);
-    }
-
-    private void updateWalletBalance(Wallet wallet, Transaction transaction, boolean isReverse) {
-        BigDecimal amount = transaction.getAmount();
-
-        // Apply reverse effect if needed (for updates or deletes)
-        if (isReverse) {
-            amount = amount.negate();
-        }
-
         // Update wallet balance based on transaction type
         switch (transaction.getType()) {
             case INCOME:
-                wallet.setBalance(wallet.getBalance().add(isReverse ? amount.negate() : amount));
+                wallet.setBalance(wallet.getBalance().add(transaction.getAmount()));
                 break;
             case EXPENSE:
-                wallet.setBalance(wallet.getBalance().subtract(isReverse ? amount.negate() : amount));
+                wallet.setBalance(wallet.getBalance().subtract(transaction.getAmount()));
                 break;
             case TRANSFER:
                 // For transfers, we would need to handle both source and destination wallets
                 // This is simplified and would need additional logic for transfers
+                break;
+        }
+
+        walletRepository.save(wallet);
+    }
+
+    // New method to properly revert wallet balance changes
+    private void revertWalletBalance(Wallet wallet, TransactionType type, BigDecimal amount) {
+        // Revert wallet balance based on the original transaction type
+        switch (type) {
+            case INCOME:
+                // If it was income, remove it from balance
+                wallet.setBalance(wallet.getBalance().subtract(amount));
+                break;
+            case EXPENSE:
+                // If it was expense, add it back to balance
+                wallet.setBalance(wallet.getBalance().add(amount));
+                break;
+            case TRANSFER:
+                // For transfers, would need more complex logic
                 break;
         }
 
