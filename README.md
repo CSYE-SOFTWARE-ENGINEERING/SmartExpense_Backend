@@ -60,7 +60,7 @@ Set up the database and update connection settings in application.properties or 
 3. Run the Application
 Using Maven:./mvnw spring-boot:run
 
-The application will be available at http://localhost:8080.
+The application will be available at http://localhost:8085.
 
 API Documentation
 
@@ -82,8 +82,6 @@ CREATE DATABASE smartexpense;
 Replace your_username with your MySQL username, then run:
 mysql -u your_username -p smartexpense < src/main/resources/db/changelog/smartexpense.sql
 
-📁 The SQL file is located at
-src/main/resources/db/smartexpense.sql
 
 4. Update database credentials in application.properties (if needed):
 spring.datasource.username=your_username
