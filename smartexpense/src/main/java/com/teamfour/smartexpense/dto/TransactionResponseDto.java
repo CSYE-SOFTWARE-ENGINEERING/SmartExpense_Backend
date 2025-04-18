@@ -1,5 +1,6 @@
 package com.teamfour.smartexpense.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat; 
 import com.teamfour.smartexpense.model.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -17,7 +19,10 @@ public class TransactionResponseDto {
     private Long id;
     private BigDecimal amount;
     private String description;
-    private LocalDateTime date;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")  // 以 yyyy-MM-dd 格式返回
+    private LocalDate date;
+
     private TransactionType type;
     private Long walletId;
     private String walletName;

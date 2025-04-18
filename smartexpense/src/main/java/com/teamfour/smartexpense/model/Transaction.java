@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import java.time.LocalDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class Transaction {
     private String description;
 
     @Column(name = "transaction_date", nullable = false)
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
